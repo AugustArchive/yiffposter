@@ -141,4 +141,7 @@ dmypy.json
 # profiling data
 .prof
 
+# config file
+yiffposter/config.py
+
 # End of https://www.toptal.com/developers/gitignore/api/python

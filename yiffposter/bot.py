@@ -25,3 +25,13 @@ class MyAPI(APIRepo):
 ```
 """
 
+from .telegram import TelegramAPI
+#from .apis import APIRequester
+
+class Bot:
+  def __init__(self):
+    #self.requester = APIRequester()
+    self.telegram = TelegramAPI()
+
+  async def run(self):
+    await self.telegram.get_self()
