@@ -1,8 +1,10 @@
 """
 Yiff Autoposter for Telegram
+
 Copyright (c) August 2020-present
 
 File: bot.py
+
 Description: The bot's source code, which runs the bot and creates
 a cron scheduler to post yiff every hour (i.e: 06:00) from sorts of APIs.
 
@@ -28,17 +30,32 @@ class MyAPI(APIRepo):
 from .telegram import TelegramAPI
 from .events import EventBus
 from .cron import CronScheduler
-from .apis import APIRequester
+#from .apis import APIRequester
+
+import schedule
+import time
+import sys
 
 class Bot:
   def __init__(self):
-    self.requester = APIRequester()
+    #self.requester = APIRequester()
     self.telegram = TelegramAPI()
-    self.events = EventBus(bot=self)
+    #self.events = EventBus(bot=self)
     self.cron = CronScheduler(bot=self)
 
   def run(self):
     print("[yiffposter:bot] Post setting up...")
 
-    self.events.init()
+    #self.events.init()
     self.cron.init()
+
+    while True:
+      try:
+        #self.events.handle_updates()
+        schedule.run_pending()
+        time.sleep(3)
+      except KeyboardInterrupt:
+        print('[yiffposter:bot] Killing event bus and cron scheduler...')
+
+        schedule.clear()
+        sys.exit(1)

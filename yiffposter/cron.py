@@ -22,3 +22,10 @@ class CronScheduler:
 
     self.bot = bot
 
+  def init(self):
+    self._run_yiff()
+    schedule.every(5).seconds.do(self._run_yiff)
+
+  def _run_yiff(self):
+    print("[yiffposter:cron] hello world")
+
