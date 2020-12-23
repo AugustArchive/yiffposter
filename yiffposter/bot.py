@@ -26,13 +26,19 @@ class MyAPI(APIRepo):
 """
 
 from .telegram import TelegramAPI
-#from .apis import APIRequester
+from .events import EventBus
+from .cron import CronScheduler
+from .apis import APIRequester
 
 class Bot:
   def __init__(self):
-    #self.requester = APIRequester()
+    self.requester = APIRequester()
     self.telegram = TelegramAPI()
+    self.events = EventBus(bot=self)
+    self.cron = CronScheduler(bot=self)
 
-  async def run(self):
-    d = await self.telegram.send_photo("-1001431058138", "https://cdn.floofy.dev/yiff/20201101_114649.jpg", "caption owo")
-    print(d)
+  def run(self):
+    print("[yiffposter:bot] Post setting up...")
+
+    self.events.init()
+    self.cron.init()

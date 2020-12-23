@@ -7,21 +7,15 @@ Description: Runs the bot
 """
 
 from yiffposter.bot import Bot
-import asyncio
 import sys
 
-loop = asyncio.get_event_loop()
 bot = Bot()
 
-async def main():
+if __name__ == '__main__':
   print("[yiffposter:runner] Running bot...")
 
   try:
-    await bot.run()
+    bot.run()
   except KeyboardInterrupt:
-    print("[yiffposter:runner] Gotten CTRL+C signal")
-
-    await bot.telegram.http.close()
-    sys.exit(0)
-
-loop.run_until_complete(main())
+    print("[yiffposter:runner] Recevied CTRL+C signal")
+    sys.exit(1)
