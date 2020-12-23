@@ -34,4 +34,5 @@ class Bot:
     self.telegram = TelegramAPI()
 
   async def run(self):
-    await self.telegram.get_self()
+    message = await self.telegram.send_message('-1001431058138', '~~Poggers~~')
+    print(message)
