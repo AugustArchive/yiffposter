@@ -34,5 +34,5 @@ class Bot:
     self.telegram = TelegramAPI()
 
   async def run(self):
-    message = await self.telegram.send_message('-1001431058138', '~~Poggers~~')
-    print(message)
+    d = await self.telegram.send_photo("-1001431058138", "https://cdn.floofy.dev/yiff/20201101_114649.jpg", "caption owo")
+    print(d)

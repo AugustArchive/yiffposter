@@ -7,8 +7,10 @@ Description: Minimal REST API to interact with Telegram
 """
 
 from .config import TOKEN
+
 import asyncio
 import aiohttp
+import typing
 
 class TelegramAPI:
   """ Represents a minimal REST API for Telegram's bot API """
@@ -86,6 +88,27 @@ class TelegramAPI:
       Returns:
         dict[Message] - JSON response from Telegram
     """
-    
+
     parse_mode = kwargs.get('parse', "MarkdownV2")
     return await self.request("post", f"/sendMessage?chat_id={chat_id}&text={text}&parse_mode={parse_mode}")
+
+  async def send_photo(self, chat_id: str, photo_url: str, caption: typing.Union[str, None]=None) -> dict:
+    """
+      Sends a photo with a optional [caption] if needed
+
+      Params:
+        self: TelegramAPI - The class instance
+        chat_id: str - The chat's ID
+        text: str - The content to send
+        caption: Union[str, None] - If we should include a caption
+      
+      Returns:
+        dict[Message] - JSON response from Telegram
+    """
+
+    url = f"/sendPhoto?chat_id={chat_id}&photo={photo_url}"
+    if caption is not None:
+      caption = caption.replace(" ", "%20")
+      url += f"&caption={caption}"
+
+    return await self.request("post", url)
