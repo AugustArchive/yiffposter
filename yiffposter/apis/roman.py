@@ -19,7 +19,7 @@ class RomanAPI(APIRepo):
     res = requests.get("https://api.awooo.space/yiff")
     res.raise_for_status()
 
-    print(f"[yiffposters:api:august] Received {res.status_code} on https://api.awooo.space/yiff")
+    print(f"[yiffposters:api:roman] Received {res.status_code} on https://api.awooo.space/yiff")
     
     data = res.json()
     return {
