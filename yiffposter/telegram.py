@@ -27,6 +27,9 @@ class TelegramAPI:
     """
 
     data = kwargs.get('data', None)
+    endpoint = endpoint.replace("\n", "%0A")
+    endpoint = endpoint.replace(" ", "%20")
+
     if method == "get" or method == "GET":
       if data != None:
         raise Exception("Can't pass data in with a GET request")
