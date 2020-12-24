@@ -52,7 +52,7 @@ class CronScheduler:
 
     if data['owner'] != None:
       owner = data['owner'].replace("_", "\\_")
-      caption += f"\nOwner: {owner}"
+      caption += f"\nAPI Owner: {owner}"
       
     caption += f"\nURL: {escape_md(data['url'])}"
 
