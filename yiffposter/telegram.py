@@ -6,6 +6,8 @@ telegram.py - Minimal REST API to interact with Telegram
 
 from .config import TOKEN
 
+from urllib.parse import urlparse
+
 import requests
 import typing
 
@@ -95,9 +97,9 @@ class TelegramAPI:
         dict[Message] - JSON response from Telegram
     """
 
-    url = f"/sendPhoto?chat_id={chat_id}&photo={photo_url}&parse_mode=Markdown"
+    url = f"/sendPhoto?chat_id={chat_id}&photo={photo_url}&parse_mode=MarkdownV2"
     if caption is not None:
       caption = caption.replace(" ", "%20")
       url += f"&caption={caption}"
 
-    return self.request("post", url)
+    return self.request("post", urlparse(url).geturl())
