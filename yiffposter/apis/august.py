@@ -26,5 +26,6 @@ class AugustAPI(APIRepo):
       "url": data['url'],
       "sources": None,
       "host": self.api,
-      "artists": None
+      "artists": None,
+      "owner": "@auguwu"
     }

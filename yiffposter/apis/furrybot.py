@@ -29,5 +29,6 @@ class FurryBotAPI(APIRepo):
       "url": image['url'],
       "sources": image['sources'],
       "host": self.api,
-      "artists": image['artists']
+      "artists": image['artists'],
+      "owner": "@Donovan_DMC"
     }

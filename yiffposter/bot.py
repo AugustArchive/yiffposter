@@ -52,7 +52,7 @@ class Bot:
         schedule.run_pending()
         time.sleep(1)
       except KeyboardInterrupt:
-        print('[yiffposter:bot] Killing event bus and cron scheduler...')
+        print('[yiffposter:bot] Killing cron scheduler & process...')
     
         schedule.clear()
         sys.exit(1)
