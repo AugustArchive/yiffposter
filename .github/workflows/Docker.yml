@@ -29,6 +29,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd ~/yiffposter
-            ls ~/yiffposter
+            git pull
+
             chmod +x update.sh
             ./update.sh

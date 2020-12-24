@@ -44,6 +44,7 @@ class Bot:
   def run(self):
     print("[yiffposter:bot] Post setting up...")
 
+    # test
     self.cron.init()
 
     while True:
