@@ -47,6 +47,8 @@ class CronScheduler:
         caption += f"[Source {i}]({source}) | "
     else:
       caption += f"\nSources: API doesn't cover this"
+      
+    caption += f"\nURL: {data['url']}"
 
     # TODO: send to all chats
     self.bot.telegram.send_photo("-1001431058138", data['url'], caption)
