@@ -1,6 +1,6 @@
 # Updates on local machine
 
-$DOCKER_PID=$(docker ps -aqf "name=autoyiffer")
+DOCKER_PID=$(echo $(docker ps -aqf name="autoyiffer") | sed 's/\=//')
 git pull
 python3 -m pip install -U -r requirements.txt
 docker stop $DOCKER_PID
