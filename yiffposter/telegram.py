@@ -92,7 +92,7 @@ class TelegramAPI:
         dict[Message] - JSON response from Telegram
     """
 
-    url = f"/sendPhoto?chat_id={chat_id}&photo={photo_url}"
+    url = f"/sendPhoto?chat_id={chat_id}&photo={photo_url}&parse_mode=Markdown"
     if caption is not None:
       caption = caption.replace(" ", "%20")
       url += f"&caption={caption}"

@@ -1,8 +1,10 @@
 """
 Yiff Autoposter for Telegram
+
 Copyright (c) August 2020-present
 
 File: cron.py
+
 Description: Cron scheduler to post every hour
 """
 
@@ -24,8 +26,27 @@ class CronScheduler:
 
   def init(self):
     self._run_yiff()
-    schedule.every(5).seconds.do(self._run_yiff)
+    schedule.every(15).seconds.do(self._run_yiff)
 
   def _run_yiff(self):
-    print("[yiffposter:cron] hello world")
+    data = self.bot.requester.request()
+    caption = f"API: {data['host']}"
 
+    if data['artists'] != None:
+      artists = ", ".join(data['artists'])
+      caption += f"\nArtist(s): {artists}"
+    else:
+      caption += f"\nArtist: API doesn't cover this"
+
+    if data['sources'] != None:
+      i = 0
+      caption += "\nSource: "
+
+      for source in data['sources']:
+        i += 1
+        caption += f"[Source {i}]({source}) | "
+    else:
+      caption += f"\nSources: API doesn't cover this"
+
+    # TODO: send to all chats
+    self.bot.telegram.send_photo("-1001431058138", data['url'], caption)
