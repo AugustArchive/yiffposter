@@ -8,6 +8,8 @@ File: cron.py
 Description: Cron scheduler to post every hour
 """
 
+from .utils import escape_md
+
 import schedule
 
 class CronScheduler:
@@ -30,11 +32,11 @@ class CronScheduler:
 
   def _run_yiff(self):
     data = self.bot.requester.request()
-    caption = f"API: {data['host']}"
+    caption = f"API: {escape_md(data['host'])}"
 
     if data['artists'] != None:
       artists = ", ".join(data['artists'])
-      caption += f"\nArtist(s): {artists}"
+      caption += escape_md(f"\nArtist(s): {artists}")
     else:
       caption += f"\nArtist: API doesn't cover this"
 
@@ -44,11 +46,11 @@ class CronScheduler:
 
       for source in data['sources']:
         i += 1
-        caption += f"[Source {i}]({source}) | "
+        caption += f"[Source {i}]({escape_md(source)}) \\| "
     else:
       caption += f"\nSources: API doesn't cover this"
       
-    caption += f"\nURL: {data['url']}"
+    caption += f"\nURL: {escape_md(data['url'])}"
 
     # TODO: send to all chats
     self.bot.telegram.send_photo("-1001431058138", data['url'], caption)

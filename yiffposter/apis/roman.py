@@ -23,7 +23,7 @@ class RomanAPI(APIRepo):
     
     data = res.json()
     return {
-      "url": f"https://cdn.awooo.space/{data['url']}",
+      "url": data['url'],
       "sources": None,
       "host": self.api,
       "artists": None
