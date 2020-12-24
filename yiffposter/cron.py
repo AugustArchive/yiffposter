@@ -26,7 +26,7 @@ class CronScheduler:
 
   def init(self):
     self._run_yiff()
-    schedule.every(1).hours.do(self._run_yiff)
+    schedule.every(30).minutes.do(self._run_yiff)
 
   def _run_yiff(self):
     data = self.bot.requester.request()
