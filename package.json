@@ -14,11 +14,16 @@
     "lint": "eslint src --ext .ts --fix"
   },
   "dependencies": {
+    "@augu/dotenv": "1.2.0",
+    "@augu/immutable": "^0.4.2",
     "@augu/orchid": "1.8.1",
-    "leeks.js": "0.0.9"
+    "leeks.js": "0.0.9",
+    "node-cron": "2.0.3"
   },
   "devDependencies": {
     "@augu/eslint-config": "1.9.0",
+    "@types/node": "^14.14.16",
+    "@types/node-cron": "2.0.3",
     "@typescript-eslint/eslint-plugin": "4.11.0",
     "@typescript-eslint/parser": "4.11.0",
     "eslint": "7.16.0",

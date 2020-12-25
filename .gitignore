@@ -2,5 +2,6 @@ node_modules/
 .vscode/
 build/
 
+.env
 *.log
 *.lock
