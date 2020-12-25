@@ -34,7 +34,7 @@ class CronScheduler:
   def _post(self, idx: str, url: str, caption: str) -> dict:
     return self.bot.telegram.send_photo(idx, url, caption)
 
-  def _run_yiff(self, tries: int=0):
+  def _run_yiff(self):
     for idx in IDS:
       try:
         data = self.bot.requester.request()
@@ -65,10 +65,4 @@ class CronScheduler:
         print(f'[yiffposter:report] Unable to post to chat ID {idx}, view trace below')
         print(e)
 
-        if tries != TRIES:
-          tries += 1
-          print(f'[yiffposter:report] Reporting to {idx} again... ({tries}/{TRIES})')
-          self._run_yiff(tries)
-        else:
-          print(f'[yiffposter:report] Reached maximum amount of tries to post, sending failed message... (tries={TRIES})')
-          self.bot.telegram.send_message(idx, "Unable to post due to a parsing error, check console for more details.")
+        self.bot.telegram.send_message(idx, "Unable to post due to a parsing error, check console for more details.")
