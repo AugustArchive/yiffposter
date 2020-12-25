@@ -61,7 +61,7 @@ class CronScheduler:
           
         caption += f"\nURL: {escape_md(data['url'])}"
         self._post(idx, data['url'], caption)
-      except e:
+      except Exception as e:
         print(f'[yiffposter:report] Unable to post to chat ID {idx}, view trace below')
         print(e)
 

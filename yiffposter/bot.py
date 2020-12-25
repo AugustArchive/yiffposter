@@ -56,3 +56,6 @@ class Bot:
     
         schedule.clear()
         sys.exit(1)
+      except Exception as e:
+        print('[yiffposter:bot] Receive unexpected error')
+        print(e)
