@@ -62,7 +62,5 @@ class CronScheduler:
         caption += f"\nURL: {escape_md(data['url'])}"
         self._post(idx, data['url'], caption)
       except Exception as e:
-        print(f'[yiffposter:report] Unable to post to chat ID {idx}, view trace below')
         print(e)
-
-        self.bot.telegram.send_message(idx, "Unable to post due to a parsing error, check console for more details.")
+        self.bot.telegram.send_message(idx, "Unable to post due to a parsing error, trying after another 30 minutes")
