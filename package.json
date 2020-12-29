@@ -2,7 +2,7 @@
   "name": "@august/yiffposter",
   "description": "🌷 Telegram bot to automatically post yiff in a channel from a wide range of APIs",
   "version": "1.2.0",
-  "main": "build/bot.js",
+  "main": "build/index.js",
   "author": "August <august@augu.dev>",
   "license": "None",
   "repository": "https://github.com/auguwu/yiffposter",

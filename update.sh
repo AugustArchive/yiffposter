@@ -1,3 +1,4 @@
+#!/bin/bash
 # Updates on local machine
 
 DOCKER_PID=$(echo $(docker ps -aqf name="autoyiffer") | sed 's/\=//')

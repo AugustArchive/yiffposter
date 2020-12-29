@@ -1,8 +1,8 @@
-FROM python:3.6-alpine
+FROM node:14-alpine
 
 LABEL MAINTAINER="August <august@augu.dev>"
 COPY . .
-RUN pip --version
-RUN pip install -U -r requirements.txt
+RUN npm install
+RUN npm run build
 
-CMD ["python", "run.py"]
+CMD ["node", "build/index.js"]

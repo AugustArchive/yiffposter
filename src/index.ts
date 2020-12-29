@@ -62,12 +62,12 @@ export class AutoYiffPoster {
     const data = await repository.request();
 
     let caption = `URL: ${data.url}`;
-    caption += `\nAPI: ${repository.api}`;
+    caption += `\nAPI: ${repository.api.replace(/\./g, '\\')}`;
     if (data.artists.length)
       caption += `\nArtist(s): ${data.artists.join(', ')}`;
 
     if (data.sources.length)
-      caption += `\nSources: ${data.sources.map((source, i) => `[Source ${i}](${encodeURIComponent(source)}) ${(i + 1) !== data.sources.length ? '| ' : ''}`).join('')}`;
+      caption += `\nSources: ${data.sources.map((source, i) => `[Source ${i}](${source}) ${(i + 1) !== data.sources.length ? '| ' : ''}`).join('')}`;
 
     const chatIDs = process.env.CHAT_IDS?.split(',') ?? [];
     for (let i = 0; i < chatIDs.length; i++) {

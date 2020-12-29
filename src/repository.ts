@@ -8,6 +8,7 @@
  */
 
 import type { AutoYiffPoster } from '.';
+import { replaceMD } from './utils';
 
 export interface RequestData {
   sources: string[];
@@ -21,8 +22,8 @@ export abstract class Repository {
   public api: string;
 
   constructor(api: string, owner: string) {
-    this.owner = owner;
-    this.api = api;
+    this.owner = replaceMD(owner) as string;
+    this.api = replaceMD(api) as string;
   }
 
   init(bot: AutoYiffPoster) {
