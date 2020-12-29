@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:latest-alpine
 
 LABEL MAINTAINER="August <august@augu.dev>"
 COPY . .
