@@ -8,59 +8,52 @@ File: cron.py
 Description: Cron scheduler to post every hour
 """
 
-from .config import IDS, TRIES
-from .utils import escape_md
+from .config import IDS
+from telegram import ParseMode
 
 import schedule
+import logging
+import time
 
-class CronScheduler:
-  """ Class to run schedulers using the [schedule] package """
-
+class Scheduler:
   def __init__(self, bot):
-    """
-      Creates a new instance of [CronScheduler]
-
-      Params:
-        self: CronScheduler - This class instance
-        bot: Bot - The bot that is running
-    """
-
+    self.logger = logging.getLogger(__name__)
     self.bot = bot
 
-  def init(self):
-    self._run_yiff()
-    schedule.every(30).minutes.do(self._run_yiff)
+  def end(self):
+    schedule.clear()
 
-  def _post(self, idx: str, url: str, caption: str) -> dict:
-    return self.bot.telegram.send_photo(idx, url, caption)
+  def start(self):
+    self.run_yiff()
+    schedule.every(30).minutes.do(self.run_yiff)
 
-  def _run_yiff(self):
+    #while True:
+    #  try:
+    #    schedule.run_pending()
+    #    time.sleep(1)
+    #  except KeyboardInterrupt:
+    #    self.end()
+    #  except Exception as e:
+    #    self.logger.info(msg="Received an exception while running scheduler", exc_info=e)
+    
+  def run_yiff(self):
     for idx in IDS:
-      try:
-        data = self.bot.requester.request()
-        caption = f"API: {escape_md(data['host'])}"
+      data = self.bot.requests.request()
+      caption = f"[ Host {data['host']} ]\nURL: {data['url']}"
 
-        if data['artists'] != None:
-          artists = ", ".join(data['artists'])
-          caption += escape_md(f"\nArtists: {artists}")
+      if data['artists'] != None and len(data['sources']) > 0:
+        artists = ", ".join(data['artists'])
+        caption += f"\nArtists: {artists}"
 
-        if data['sources'] != None:
-          i = 0
-          caption += "\nSource: "
+      if data['sources'] != None and len(data['sources']) > 0:
+        i = 0
+        caption += "\nSource: "
 
-          for source in data['sources']:
-            i += 1
-            is_end = i == len(data['sources'])
-            prefix = "\\| " if not is_end else ""
+        for source in data['sources']:
+          i += 1
+          is_end = i == len(data['sources'])
+          prefix = "| " if not is_end else ""
 
-            caption += f"[Source #{i}]({escape_md(source)}) {prefix}"
+          caption += f"[Source #{i}]({source}) {prefix}"
 
-        if data['owner'] != None:
-          owner = data['owner'].replace("_", "\\_")
-          caption += f"\nAPI Owner: {owner}"
-          
-        caption += f"\nURL: {escape_md(data['url'])}"
-        self._post(idx, data['url'], caption)
-      except Exception as e:
-        print(e)
-        self.bot.telegram.send_message(idx, "Unable to post due to a parsing error, trying after another 30 minutes")
+      self.bot.bot.send_photo(chat_id=idx, photo=data['url'], caption=caption, parse_mode=ParseMode.MARKDOWN_V2)

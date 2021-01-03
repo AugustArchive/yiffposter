@@ -12,5 +12,4 @@ import sys
 bot = Bot()
 
 if __name__ == '__main__':
-  print("[yiffposter:runner] Running bot...")
   bot.run()
