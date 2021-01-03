@@ -1,9 +1,8 @@
-FROM python:3.6-alpine
+FROM python:3.9-slim
 
 LABEL MAINTAINER="August <august@augu.dev>"
 COPY . .
 
-RUN apk add gcc
 RUN pip --version
 RUN pip install -U -r requirements.txt
 
