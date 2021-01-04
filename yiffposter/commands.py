@@ -16,5 +16,5 @@ def start(update: Update, ctx: CallbackContext):
     henlo, I am an autoposter bot that posts yiff every 30 minutes!
     -=- Managed by @auguwu -=-
 
-    if you want your group to be listed, contact Chris (@auguwu) to get your list added.
+    If you want your group to be listed, contact Chris (@auguwu) to get your list added.
   """)
