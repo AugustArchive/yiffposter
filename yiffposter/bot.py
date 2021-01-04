@@ -31,7 +31,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext
 from telegram import Bot as TBot, ParseMode
 from urllib.parse import urlparse
 from .requests import RequestHandler
-from .commands import start
+from .commands import start, owoify, help as halp
 from .config import TOKEN, IDS
 from sys import exit
 
@@ -62,9 +62,10 @@ class Bot:
     dispatcher = self.updater.dispatcher
 
     self.logger.info("Starting bot instance...")
-    dispatcher.add_handler(CommandHandler("help", start))
+    dispatcher.add_handler(CommandHandler("help", halp))
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("image", self.command_image))
+    dispatcher.add_handler(CommandHandler("owoify", owoify))
     dispatcher.add_error_handler(self._on_error)
 
     self._queue()

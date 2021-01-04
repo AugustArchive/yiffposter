@@ -36,7 +36,8 @@ def make_owo(text):
       text = text.replace('n{}'.format(v), 'ny{}'.format(v))
       if 'N{}'.format(v) in text:
         text = text.replace('N{}'.format(v), 'N{}{}'.format('Y' if v.isupper() else 'y', v))
-  return text
+
+  return text.replace("\\", "")
   
 # Commands
 
@@ -48,8 +49,15 @@ def start(update: Update, ctx: CallbackContext):
   If you want your group to be listed, contact Chris (@auguwu) to get your list added.
 """)
 
+def help(update: Update, ctx: CallbackContext):
+  update.message.reply_text("Help yourself, cutie. <3")
+
 def owoify(update: Update, ctx: CallbackContext):
-  try: 
-    update.message.reply_text(make_owo(message.text))
+  try:
+    update.message.reply_text(make_owo(" ".join(ctx.args)))
   except Exception as e:
-    update.message.reply_text(f"Calc your code sucks heres the error: `{e}`")
+    if hasattr(e, 'message') and e.message == "Message text is empty":
+      update.message.reply_text("Missing text to owoify...")
+      return
+
+    update.message.reply_text(f"Received an error while owoifying: '{e}'\nReport this to @auguwu with this message copied.")
