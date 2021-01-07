@@ -31,7 +31,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext
 from telegram import Bot as TBot, ParseMode
 from urllib.parse import urlparse
 from .requests import RequestHandler
-from .commands import start, owoify, help as halp
+from .commands import start, owoify, help as halp, chat_id
 from .config import TOKEN, IDS
 from sys import exit
 
@@ -66,6 +66,7 @@ class Bot:
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("image", self.command_image))
     dispatcher.add_handler(CommandHandler("owoify", owoify))
+    dispatcher.add_handler(CommandHandler("id", chat_id))
     dispatcher.add_error_handler(self._on_error)
 
     self._queue()
@@ -96,7 +97,7 @@ class Bot:
     dispatcher = self.updater.dispatcher
     
     for idx in IDS:
-      self.logger.debug(f"Building job for chat ID {idx}...")
+      self.logger.info(f"Building job for chat ID {idx}...")
       r = self._get_content()
       self.bot.send_photo(chat_id=idx, photo=r['data']['url'], caption=r['caption'], parse_mode=ParseMode.MARKDOWN_V2)
 

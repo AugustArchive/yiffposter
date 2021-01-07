@@ -52,6 +52,10 @@ def start(update: Update, ctx: CallbackContext):
 def help(update: Update, ctx: CallbackContext):
   update.message.reply_text("Help yourself, cutie. <3")
 
+def chat_id(update: Update, ctx: CallbackContext):
+  chat = update.message.chat_id
+  update.message.reply_text(f"ID: {chat}")
+
 def owoify(update: Update, ctx: CallbackContext):
   try:
     update.message.reply_text(make_owo(" ".join(ctx.args)))
