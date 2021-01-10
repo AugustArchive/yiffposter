@@ -90,7 +90,7 @@ class Bot:
       data = self._get_content(self.requests.apis[api])
       update.message.reply_photo(photo=data['data']['url'], caption=data['caption'], parse_mode=ParseMode.MARKDOWN_V2)
     except (IndexError, ValueError):
-      data = self._get_content(None)
+      data = self._get_content()
       update.message.reply_photo(photo=data['data']['url'], caption=data['caption'], parse_mode=ParseMode.MARKDOWN_V2)
 
   def _queue(self):
@@ -99,13 +99,16 @@ class Bot:
     for idx in IDS:
       self.logger.info(f"Building job for chat ID {idx}...")
       r = self._get_content()
-      self.bot.send_photo(chat_id=idx, photo=r['data']['url'], caption=r['caption'], parse_mode=ParseMode.MARKDOWN_V2)
+      if r['data']['url'].endswith('.gif'):
+        self.bot.send_video(chat_id=idx, photo=r['data']['url'], caption=r['caption'], parse_mode=ParseMode.MARKDOWN_V2)
+      else:
+        self.bot.send_photo(chat_id=idx, photo=r['data']['url'], caption=r['caption'], parse_mode=ParseMode.MARKDOWN_V2)
 
       dispatcher.job_queue.run_repeating(self._run_yiff, 1800, name=f"yiffposter:chat:{idx}")
 
   def _get_content(self, requester=None):
     data = requester.request() if requester is not None else self.requests.request()
-    caption = escape_md(f"[ {data['host']} by {data['owner']} ]\n\nURL: {data['url']}")
+    caption = escape_md(f"[ Host '{data['host']}' ]\n\nURL: {data['url']}")
 
     if data['artists'] != None and len(data['sources']) > 0:
       artists = ", ".join(data['artists'])
