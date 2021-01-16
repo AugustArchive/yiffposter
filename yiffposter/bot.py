@@ -73,7 +73,7 @@ class Bot:
     self.updater.start_polling()
     self.updater.idle()
 
-    self.logger.info("Bot is now started! <3")
+    self.logger.info("Bot has started! <3")
 
   def command_image(self, update, context):
     try:

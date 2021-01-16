@@ -20,7 +20,10 @@ class RomanAPI(APIRepo):
     self.logger = logging.getLogger(__name__)
 
   def request(self):
-    res = requests.get("https://api.awooo.space/yiff")
+    res = requests.get("https://api.awooo.space/yiff", headers={
+      "User-Agent": "auguwu/yiffposter (v0.0.0)"
+    })
+
     res.raise_for_status()
 
     self.logger.info(f"Received {res.status_code} on https://api.awooo.space/yiff")
