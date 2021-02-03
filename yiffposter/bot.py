@@ -42,8 +42,6 @@ def escape_md(string: str) -> str:
   parse = re.sub(r"([_*\[\]()~`>\#\+\-=|\.!])", r"\\\1", string)
   return re.sub(r"\\\\([_*\[\]()~`>\#\+\-=|\.!])", r"\1", parse) # don't hate me for this pls, also stolen code bacause fuck regex
 
-logging.basicConfig(format="[%(asctime)s] [%(name)s | %(levelname)s] ~> %(message)s", level=logging.INFO)
-
 class Bot:
   def __init__(self):
     self.requests = RequestHandler(bot=self)
@@ -84,14 +82,39 @@ class Bot:
         return
 
       if api not in self.requests.apis.keys():
-        update.message.reply_text(f"API {api} was not found.")
+        update.message.reply_text(f"API {api} was not found. Use '/image list' to get the list of APIs available.")
         return
 
       data = self._get_content(self.requests.apis[api])
-      update.message.reply_photo(photo=data['data']['url'], caption=data['caption'], parse_mode=ParseMode.MARKDOWN_V2)
+      if data['data']['url'].endswith(".gif"):
+        update.message.send_video(
+          photo=data['data']['url'],
+          caption=data['caption'],
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
+
+      else:
+        update.message.send_photo(
+          photo=data['data']['url'],
+          caption=data['caption'],
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
+
     except (IndexError, ValueError):
       data = self._get_content()
-      update.message.reply_photo(photo=data['data']['url'], caption=data['caption'], parse_mode=ParseMode.MARKDOWN_V2)
+      if data['data']['url'].endswith(".gif"):
+        update.message.send_video(
+          photo=data['data']['url'],
+          caption=data['caption'],
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
+
+      else:
+        update.message.send_photo(
+          photo=data['data']['url'],
+          caption=data['caption'],
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
 
   def _queue(self):
     dispatcher = self.updater.dispatcher
@@ -100,11 +123,22 @@ class Bot:
       self.logger.info(f"Building job for chat ID {idx}...")
       r = self._get_content()
       if r['data']['url'].endswith('.gif'):
-        self.bot.send_video(chat_id=idx, photo=r['data']['url'], caption=r['caption'], parse_mode=ParseMode.MARKDOWN_V2)
-      else:
-        self.bot.send_photo(chat_id=idx, photo=r['data']['url'], caption=r['caption'], parse_mode=ParseMode.MARKDOWN_V2)
+        self.bot.send_video(
+          chat_id=idx, 
+          photo=r['data']['url'], 
+          caption=r['caption'], 
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
 
-      dispatcher.job_queue.run_repeating(self._run_yiff, 1800, name=f"yiffposter:chat:{idx}")
+      else:
+        self.bot.send_photo(
+          chat_id=idx, 
+          photo=r['data']['url'], 
+          caption=r['caption'], 
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
+
+    dispatcher.job_queue.run_repeating(self._run_yiff, 1800, name=f"yiffposter:chat:{idx}")
 
   def _get_content(self, requester=None):
     data = requester.request() if requester is not None else self.requests.request()
@@ -130,4 +164,19 @@ class Bot:
   def _run_yiff(self, context: CallbackContext):
     for idx in IDS:
       data = self._get_content()
-      context.bot.send_photo(chat_id=idx, photo=data['data']['url'], caption=data['caption'], parse_mode=ParseMode.MARKDOWN_V2)
+
+      if data['data']['url'].endswith(".gif"):
+        context.bot.send_video(
+          chat_id=idx,
+          photo=data['data']['url'],
+          caption=data['caption'],
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
+
+      else:
+        context.bot.send_photo(
+          chat_id=idx,
+          photo=data['data']['url'],
+          caption=data['caption'],
+          parse_mode=ParseMode.MARKDOWN_V2
+        )
