@@ -5,7 +5,7 @@ Copyright (c) August 2020-present
 
 File: apis/furrybot.py
 
-Description: REST API for https://api.furry.bot, created by Donovan_DMC
+Description: REST API for https://yiff.rest, created by Donovan_DMC
 """
 
 from yiffposter.models import APIRepo

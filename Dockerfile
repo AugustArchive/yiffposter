@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-LABEL MAINTAINER="August <august@augu.dev>"
+LABEL MAINTAINER="August <cutie@floofy.dev>"
 ENV PYTHONUNBUFFERED=1
 RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 RUN python -m ensurepip
